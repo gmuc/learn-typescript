@@ -1,3 +1,6 @@
 node_modules
 migrate_js2ts/axios_demo_ts/yarn-error.log
 migrate_js2ts/axios_demo_ts/yarn.lock
+built
+yarn-error.log
+yarn.lock
