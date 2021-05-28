@@ -26,11 +26,38 @@ Migrate javascript to typescript step by step using axios as an example
 
 1. install typescript<br/>`npm install -g typescript`
 
-1. create typescript config<br/>`touch axios_demo_ts2/tsconfig.json`
+1. create typescript config<br/>`touch axios_demo_ts/tsconfig.json`
 
 1. install eslint<br/>`npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin`
 
 1. create eslintconfig<br/>`touch .eslintrc`
+
+tsconfig.json:
+
+```
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "lib": ["es2018"],
+    "module": "commonjs",
+    "target": "es2018",
+    "baseUrl": ".",
+    "paths": {
+      "*": ["node_modules/*", "src/types/*"]
+    },
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "outDir": "./built"
+  },
+  "include": ["./src/**/*", "jest.config.js"],
+  "exclude": ["node_modules"]
+}
+```
+
+.eslintrc:
 
 ```
 {
@@ -61,12 +88,57 @@ Migrate javascript to typescript step by step using axios as an example
 
 1. comment last argument in axios.request`responseEncoding: "binary",`
 
+1. add type to function parameters
+
+```
+const fetchData = async (
+  url: string,
+  dataManager: Function,
+
++
+
+const swapiShowData = (data: string) => {
+
++	comment parameter responseEncoding
+
+// responseEncoding: "binary",
+
+```
+
+## fix the parameter responseEncoding problem
+
+1. create module.d.ts<br/>`touch src/module.d.ts`
+
+1. add type definition for responseEncoding
+
+```
+import AxiosRequestConfig from "axios";
+
+declare module "axios" {
+  export interface AxiosRequestConfig {
+    responseEncoding?: string;
+  }
+}
+```
+
+3. delete comment<br/>`// responseEncoding: "binary",`
+
+see details:
+
+https://github.com/axios/axios/issues/1866
+
 ## build and run
 
 1. create build directory<br/>`mkdir built`
 
 1. build javascript<br/>`npm run build`
 
-1. rund javascript<br/>`node build/testAxios.js
+1. run javascript<br/>`node built/testAxios.js`
 
-## related links`
+## related links
+
+1. general guide: https://dev.to/llldar/migrate-to-typescript-on-node-js-2jhg
+
+1. eslint guide: https://khalilstemmler.com/blogs/typescript/eslint-for-typescript
+
+1. console.log problem solution: https://stackoverflow.com/questions/42105984/cannot-find-name-console-what-could-be-the-reason-for-this/42106036
