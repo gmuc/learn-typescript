@@ -86,7 +86,7 @@ tsconfig.json:
 
 1. change import to<br/>`import axios from "axios";`
 
-1. comment last argument in axios.request`responseEncoding: "binary",`
+1. comment last argument in axios.request<br/>`responseEncoding: "binary",`
 
 1. add type to function parameters
 
