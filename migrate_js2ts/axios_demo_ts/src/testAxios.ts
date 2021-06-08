@@ -1,17 +1,19 @@
-import axios from "axios";
+import axios, {ResponseType} from "axios";
 
 const url = "https://swapi.dev/api/people/4";
 
 const fetchData = async (
   url: string,
   dataManager: Function,
+  resType: ResponseType,
   encoding = "utf8"
 ) => {
   await axios
     .request({
       method: "GET",
       url: url,
-      responseType: "arraybuffer",
+      responseType: resType,
+      //			responseType: "arraybuffer",
       responseEncoding: "binary",
     })
     .then(async (response) => {
@@ -32,4 +34,5 @@ const swapiShowData = (data: string) => {
   console.log("swapi:", data);
 };
 
-fetchData(url, swapiShowData);
+let rmode: ResponseType = "arraybuffer";
+fetchData(url, swapiShowData, rmode);
